@@ -56,7 +56,7 @@ public class FileParser {
      *
      * @param reader A Reader Object
      */
-    public FileParser(Reader reader) {
+    FileParser(Reader reader) {
         this(reader, ',');
     }
 
@@ -68,7 +68,7 @@ public class FileParser {
      *                  Note: delimiter can not be same delimiter that contains a format string.
      *                  for example dot (.) or (/) forward slash
      */
-    public FileParser(Reader reader, char delimiter) {
+    FileParser(Reader reader, char delimiter) {
         map = new HashMap<>();
         this.reader = reader.markSupported() ? reader : new BufferedReader(reader);
         this.prevChar = 0;
@@ -108,20 +108,9 @@ public class FileParser {
                     end = (Date) obj[3];
                 if (obj[2] instanceof Date)
                     start = (Date) obj[2];
-//                long diff = -1;
-
-//                if (end == null || start == null)
-//                    break;
-//                if (end.getTime() > start.getTime())
-//                    diff = TimeUnit.DAYS.convert(end.getTime() - start.getTime(), TimeUnit.MILLISECONDS);
-//                if (start.getTime() > end.getTime())
-//                    diff = TimeUnit.DAYS.convert(start.getTime() - end.getTime(), TimeUnit.MILLISECONDS);
-//                if (start.getTime() == end.getTime())
-//                    diff  = 0;
 
 
                 // save the employee ID and days worked.
-//                long empID = (Long)obj[0];
                 EmpData emp = new EmpData(empID, projectID, start, end);
 
                 if (this.map.containsKey(projectID)) {
@@ -259,10 +248,8 @@ public class FileParser {
 
     /**
      * method will finds the pair of employees that have worked as a team for the longest time at the same projects.
-     *
-     * @return
      */
-    public Map<Long, List<Vector<Long>>> getData() {
+    Map<Long, List<Vector<Long>>> getData() {
 
         if (this.map.isEmpty())
             return new LinkedHashMap<>();
