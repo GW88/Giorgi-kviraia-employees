@@ -33,6 +33,14 @@ public class GridView extends JFrame {
         setVisible(true);
 
 
+        FileParser parser=null;
+        try {
+            parser = new FileParser(new FileReader("emp.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
         DefaultTableModel model = new DefaultTableModel() {
             String[] cNames = {"Employee ID #1", "Employee ID #2", "Project ID", "Days worked"};
 
@@ -46,6 +54,15 @@ public class GridView extends JFrame {
                 return cNames[index];
             }
         };
+
+        if (parser !=null ){
+
+            for (List<Vector<Long>> v : parser.getData().values()) {
+                for (Vector<Long> longs : v) {
+                    model.addRow(longs);
+                }
+            }
+        }
 
         JTable table = new JTable(model) {
             private static final long serialVersionUID = 1L;
@@ -85,13 +102,14 @@ public class GridView extends JFrame {
                 if (toImport.exists()) {
 
                     try {
+                        model.getDataVector().clear();
                         String del = delimiterFiled.getText();
-                        FileParser parser;
+                        FileParser pr;
                         if (del != null && del.length() == 1)
-                            parser = new FileParser(new FileReader(toImport), del.charAt(0));
+                            pr = new FileParser(new FileReader(toImport), del.charAt(0));
                         else
-                            parser = new FileParser(new FileReader(toImport));
-                        for (List<Vector<Long>> v : parser.getData().values()) {
+                            pr = new FileParser(new FileReader(toImport));
+                        for (List<Vector<Long>> v : pr.getData().values()) {
                             for (Vector<Long> longs : v) {
                                 model.addRow(longs);
                             }
